@@ -183,7 +183,7 @@ namespace x86 {
 
 	int assm32Program(char *pPrg, unsigned char *pBuf, int maxSize, unsigned int address, RedBlackBST<char *, unsigned int> *pGlobalLabels) {
 		ArrayDeque<InstructionLine *> lines;
-		RedBlackBST<char *, InstructionLine *> labels(str_comp);
+		RedBlackBST<char *, InstructionLine *> labels(str_comp); // does not need a cleaner, uses pointers from other objects only
 
 		int ret = 0;
 
@@ -288,7 +288,7 @@ namespace x86 {
 				pGLabelBuf[gLabelLength] = 0;
 				pGlobalLabels->Put(pGLabelBuf, pLine->address);
 			}
-			delete lines.At(i);
+			delete pLine;
 		}
 		return ret;
 	}

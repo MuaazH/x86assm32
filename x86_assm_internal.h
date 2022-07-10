@@ -1200,8 +1200,8 @@ inline int assm32Nop(char *pParamStr, unsigned char *pBuf, unsigned int address)
 inline int assm32Db(char *pParamStr, unsigned char *pBuf, unsigned int address) {
 	Operand sz;
 	if (parseOperand(pParamStr, &sz)) {
-		if (sz.type == MEM32 && sz.mem.type == MEM_TYPE_OFF) {
-			unsigned int allocSize = (unsigned int) sz.mem.offset32;
+		if (sz.type == IMM32) {
+			unsigned int allocSize = (unsigned int) sz.val32;
 			for (unsigned int i = 0; i < allocSize; i++) {
 				pBuf[i] = 0;
 			}
@@ -1366,6 +1366,7 @@ int assm32_(const char *inst, unsigned char *pBuf, unsigned int address) {
 		}
 		ifc(1, 'e') {
 			ifc(2, 'c') {
+				// dec
 				if (mnSize == 3) { call(assm32Dec) }
 				UNKNOWN_INSTRUCTION
 			}
