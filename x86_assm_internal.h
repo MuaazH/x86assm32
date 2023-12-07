@@ -220,7 +220,7 @@ inline bool str_equal(const char *a, const char *b) {
 	return true;
 }
 
-inline unsigned int str_length(const char *pStr) {
+static inline unsigned int str_length(const char *pStr) {
 	unsigned int i = 0;
 	while (pStr[i]) i++;
 	return i;
@@ -427,9 +427,9 @@ bool parseOperand(char *pBuf, Operand *pOut) {
 			int baseVal;
 			int indexType;
 			int indexVal;
-			#define ___IF_OFFSET_IS_HEX		if (parseHex((char *) &offset, offsetLen, &offsetType, &offsetVal))
-			#define ___IF_BASE_IS_REG		if (parseReg((char *) &base, baseLen, &baseType, &baseVal))
-			#define ___IF_INDEX_IS_REG		if (parseReg((char *) &index, indexLen, &indexType, &indexVal))
+			#define IF_OFFSET_IS_HEX		if (parseHex((char *) &offset, offsetLen, &offsetType, &offsetVal))
+			#define IF_BASE_IS_REG		if (parseReg((char *) &base, baseLen, &baseType, &baseVal))
+			#define IF_INDEX_IS_REG		if (parseReg((char *) &index, indexLen, &indexType, &indexVal))
 
 			// try [offset]
 			if (parseHex(pMemStr, memSLen, &offsetType, &offsetVal)) {
@@ -455,15 +455,15 @@ bool parseOperand(char *pBuf, Operand *pOut) {
 				return true;
 			}
 			// try [offset+base+index*scale]
-			if(sscanf(pMemStr, "%[^+]+%[^+]+%[^*]*%c", offset, base, index, &scale) == 4) {
+			if(sscanf(pMemStr, "%[^+]+%[^*]*%c+%[^+]", base, index, &scale, offset) == 4) {
 				int baseLen = str_length((char *) &base);
 				int indexLen = str_length((char *) &index);
 				int offsetLen = str_length((char *) &offset);
 				if (baseLen + indexLen + offsetLen + 4 == memSLen) {
-					___IF_OFFSET_IS_HEX {
-						___IF_BASE_IS_REG {
+					IF_OFFSET_IS_HEX {
+						IF_BASE_IS_REG {
 							if (baseType == REG32) {
-								___IF_INDEX_IS_REG {
+								IF_INDEX_IS_REG {
 									if (indexType == REG32) {
 										scale -= '0';
 										if (scale == 1 || scale == 2 || scale == 4 || scale == 8) {
@@ -499,9 +499,9 @@ bool parseOperand(char *pBuf, Operand *pOut) {
 				int baseLen = str_length((char *) &base);
 				int indexLen = str_length((char *) &index);
 				if (baseLen + indexLen + 3 == memSLen) {
-					___IF_BASE_IS_REG {
+					IF_BASE_IS_REG {
 						if (baseType == REG32) {
-							___IF_INDEX_IS_REG {
+							IF_INDEX_IS_REG {
 								if (indexType == REG32) {
 									scale -= '0';
 									if (scale == 1 || scale == 2 || scale == 4 || scale == 8) {
@@ -524,8 +524,8 @@ bool parseOperand(char *pBuf, Operand *pOut) {
 				int indexLen = str_length((char *) &index);
 				int offsetLen = str_length((char *) &offset);
 				if (indexLen + offsetLen + 3 == memSLen) {
-					___IF_OFFSET_IS_HEX {
-						___IF_INDEX_IS_REG {
+					IF_OFFSET_IS_HEX {
+						IF_INDEX_IS_REG {
 							if (indexType == REG32) {
 								scale -= '0';
 								if (scale == 1 || scale == 2 || scale == 4 || scale == 8) {
@@ -559,8 +559,8 @@ bool parseOperand(char *pBuf, Operand *pOut) {
 				int baseLen = str_length((char *) &base);
 				int offsetLen = str_length((char *) &offset);
 				if (baseLen + offsetLen + 1 == memSLen) {
-					___IF_OFFSET_IS_HEX {
-						___IF_BASE_IS_REG {
+					IF_OFFSET_IS_HEX {
+						IF_BASE_IS_REG {
 							if (baseType == REG32) {
 								pOut->type = type;
 								pOut->mem.type = MEM_TYPE_OFF_REG;

@@ -1,6 +1,6 @@
 # x86assm32
 A simple x86 32bit assembler (Does not support all instructions)
-It can compile simple instuctions from `char*` to uh... well a `char*`. It works in memory, it takes a `string` and assebles it to Machine Code the given `memory buffer`. See the included example for more info.
+It can compile simple instructions from `char*` to uh... well a `char*`. It works in memory, it takes a `string` and assembles it to Machine Code in the given `memory buffer`. See the included example for more info.
 
 Checkout https://github.com/MuaazH/x86Loader to see what it is used for
 
@@ -9,7 +9,7 @@ I have a Driving License
 
 # Contact Me
 I'm always looking for work, if it pays.
-```sh
+```
 muaaz.h.is@gmail.com
 ```
 

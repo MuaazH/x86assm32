@@ -304,7 +304,7 @@ namespace x86 {
 
 int main(int argc, char *argv[]) {
 
-	const char *test =
+	/*char *test[1024] = {
 						"				movsx eax,word ptr [ecx+60]		\n"
 						"				cmp eax, 01						\n"
 						"				je %isPlyr%						\n"
@@ -316,14 +316,26 @@ int main(int argc, char *argv[]) {
 						"				ret								\n"
 						"isPlyr:		movsx eax, word ptr [ecx+5C]	\n"
 						"				ret								\n";
+	};*/
 
-	const unsigned int assmSize = 1024 * 10; // 10k
+	char test0[100] = {"[edi+esi*4+000001BC]"};
+	Operand x;
+	if (parseOperand(test0, &x)) {
+		cout << "parseOperand is good" << endl;
+	} else {
+		cout << "parseOperand is shit" << endl;
+	}
+
+
+	char test[100] = {"mov eax, [edi+esi*4+000001BC]"};
+
+	const unsigned int assmSize = 1024 * 2; // 2k
 	unsigned char assm[assmSize];
 	for (unsigned int i = 0; i < assmSize; i++) assm[i] = 0;
 
-	unsigned char *pAssm = (unsigned char *) &assm;
+	auto *pAssm = (unsigned char *) &assm;
 
-	int sz = assm32Program((char *) test, pAssm, assmSize, 0);
+	int sz = assm32Program(test, pAssm, assmSize, 0x00400000, 0);
 	if (sz > 0) {
 		cout << sz << endl;
 	} else {
