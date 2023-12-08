@@ -61,6 +61,19 @@ const Instruction movsx_instructions[] = {
 	{0x00, 0xBF, 0x00, 0x00, 0x02, REG32, MEM16, 0x00, 0x00, "movsx", FLAG_MODRM | FLAG_0F_PREFIX}
 };
 
+const Instruction movzx_instructions[] = {
+	// pf,   op,  op2,  ext,  cnt,    o1,   o2,   o3,   o4,  mnmnc,  flags
+	// 16 <- 8
+	{0x66, 0xB6, 0x00, 0x00, 0x02, REG16, REG8, 0x00, 0x00, "movzx", FLAG_MODRM | FLAG_0F_PREFIX},
+	{0x66, 0xB6, 0x00, 0x00, 0x02, REG16, MEM8, 0x00, 0x00, "movzx", FLAG_MODRM | FLAG_0F_PREFIX},
+	// 32 <- 8
+	{0x00, 0xB6, 0x00, 0x00, 0x02, REG32, REG8, 0x00, 0x00, "movzx", FLAG_MODRM | FLAG_0F_PREFIX},
+	{0x00, 0xB6, 0x00, 0x00, 0x02, REG32, MEM8, 0x00, 0x00, "movzx", FLAG_MODRM | FLAG_0F_PREFIX},
+	// 32 <- 16
+	{0x00, 0xB7, 0x00, 0x00, 0x02, REG32, REG16, 0x00, 0x00, "movzx", FLAG_MODRM | FLAG_0F_PREFIX},
+	{0x00, 0xB7, 0x00, 0x00, 0x02, REG32, MEM16, 0x00, 0x00, "movzx", FLAG_MODRM | FLAG_0F_PREFIX}
+};
+
 const Instruction mov_instructions[] = {
 	// pf,   op,  op2,  ext,  cnt, o1,   o2,   o3,   o4,  mnmnc,  flags
 	// 8 <- 8

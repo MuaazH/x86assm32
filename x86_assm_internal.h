@@ -1227,6 +1227,10 @@ inline int assm32Movsx(char *pParamStr, unsigned char *pBuf, unsigned int addres
 	return assm2OpInst(movsx_instructions, sizeof(movsx_instructions) / sizeof(Instruction), pParamStr, pBuf, address);
 }
 
+inline int assm32Movzx(char *pParamStr, unsigned char *pBuf, unsigned int address) {
+	return assm2OpInst(movzx_instructions, sizeof(movzx_instructions) / sizeof(Instruction), pParamStr, pBuf, address);
+}
+
 inline int assm32Shr(char *pParamStr, unsigned char *pBuf, unsigned int address) {
 	return assm32Inst(shr_instructions, sizeof(shr_instructions) / sizeof(Instruction), pParamStr, pBuf, address);
 }
@@ -1493,6 +1497,14 @@ int assm32_(const char *inst, unsigned char *pBuf, unsigned int address) {
 					ifc(4, 'x') {
 						// movsx
 						if (mnSize == 5) { call(assm32Movsx) }
+						UNKNOWN_INSTRUCTION
+					}
+					UNKNOWN_INSTRUCTION
+				}
+				ifc(3, 'z') {
+					ifc(4, 'x') {
+						// movzx
+						if (mnSize == 5) { call(assm32Movzx) }
 						UNKNOWN_INSTRUCTION
 					}
 					UNKNOWN_INSTRUCTION
