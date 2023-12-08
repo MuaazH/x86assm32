@@ -318,30 +318,23 @@ int main(int argc, char *argv[]) {
 						"				ret								\n";
 	};*/
 
-	char test0[100] = {"[edi+esi*4+000001BC]"};
-	Operand x;
-	if (parseOperand(test0, &x)) {
-		cout << "parseOperand is good" << endl;
-	} else {
-		cout << "parseOperand is shit" << endl;
-	}
-
-
-	char test[100] = {"mov eax, [edi+esi*4+000001BC]"};
+	char test[100] = {"sub eax, 00000FEC"};
 
 	const unsigned int assmSize = 1024 * 2; // 2k
 	unsigned char assm[assmSize];
 	for (unsigned int i = 0; i < assmSize; i++) assm[i] = 0;
 
-	auto *pAssm = (unsigned char *) &assm;
-
-	int sz = assm32Program(test, pAssm, assmSize, 0x00400000, 0);
+	int sz = assm32Program(test, assm, assmSize, 0x00400000, 0);
 	if (sz > 0) {
 		cout << sz << endl;
 	} else {
 		cout << "\n\nERROR" << endl;
 	}
-	printHex(pAssm, sz > 0 ? sz : 20);
+
+	if (sz > 0)
+		printHex(assm, sz);
+
+	cout << "====== END ====== " << endl;
 
 	return 0;
 }
