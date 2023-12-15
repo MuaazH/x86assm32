@@ -1247,6 +1247,10 @@ inline int assm32Add(char *pParamStr, unsigned char *pBuf, unsigned int address)
 	return assm2OpInst(add_instructions, sizeof(add_instructions) / sizeof(Instruction), pParamStr, pBuf, address);
 }
 
+inline int assm32Xor(char *pParamStr, unsigned char *pBuf, unsigned int address) {
+	return assm2OpInst(xor_instructions, sizeof(xor_instructions) / sizeof(Instruction), pParamStr, pBuf, address);
+}
+
 inline int assm32Mul(char *pParamStr, unsigned char *pBuf, unsigned int address) {
 	return assm1OpInst(mul_instructions, sizeof(mul_instructions) / sizeof(Instruction), pParamStr, pBuf, address);
 }
@@ -1609,6 +1613,16 @@ int assm32_(const char *inst, unsigned char *pBuf, unsigned int address) {
 		ifc(1, 'u') {
 			ifc(2, 'b') {
 				if (mnSize == 3) { call(assm32Sub) }
+				UNKNOWN_INSTRUCTION
+			}
+			UNKNOWN_INSTRUCTION
+		}
+		UNKNOWN_INSTRUCTION
+	}
+	ifc(0, 'x') {
+		ifc(1, 'o') {
+			ifc(2, 'r') {
+				if (mnSize == 3) { call(assm32Xor) }
 				UNKNOWN_INSTRUCTION
 			}
 			UNKNOWN_INSTRUCTION

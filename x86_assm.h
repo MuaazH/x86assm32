@@ -12,7 +12,7 @@ namespace x86 {
 
 	int assm32Program(char *pPrg, unsigned char *pBuf, int maxSize, unsigned int address, RedBlackBST<char *, unsigned int> *pGlobalLabels);
 
-	const char assm32version[] = "1.18.1";
+	const char assm32version[] = "1.19.0";
 }
 
 #endif
