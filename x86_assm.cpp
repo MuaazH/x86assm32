@@ -318,7 +318,16 @@ int main(int argc, char *argv[]) {
 						"				ret								\n";
 	};*/
 
-	char test[100] = {"sub eax, 00000FEC"};
+	char test[1024] = {
+		"xor eax, 00000FEC\n"
+		"xor eax, eax\n"
+		"xor eax, ebx\n"
+		"xor eax, 04\n"
+		"xor ax, 34\n"
+		"xor al, 34\n"
+		"xor eax, dword ptr [04005004]\n"
+		"xor dword ptr [04005004], eax\n"
+	};
 
 	const unsigned int assmSize = 1024 * 2; // 2k
 	unsigned char assm[assmSize];
